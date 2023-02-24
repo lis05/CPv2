@@ -1,0 +1,11 @@
+fast compilation (precompiled headers)
+not compiling if the code is the same
+support for both bits/stdc++.h and standard <header>'s
+files for io streams (input, output, errors)
+time and memory consumption.
+running in different modes: run,debug, cf(g++ with codeforces' compilation parameters), etc(etcoder, same idea as with codeforces), custom ones.
+parsers for codeforces' and atcoder's compilations parameters
+g++ 14,17,20 32/64bit support
+    DONE templates(many)
+library for creating and running random tests
+custom libraries support(which you could place in your code like atcoder_lib does)

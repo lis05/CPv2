@@ -1,0 +1,119 @@
+#!/bin/python3
+
+import sys
+
+DIR,CMD,LIB=sys.argv[1:]
+
+LIBS=f"{DIR}/libs"
+DATA=f"{DIR}/data"
+MAINCPP=f"{DIR}/main.cpp"
+
+if CMD=="list":
+    res=[]
+    with open(MAINCPP, 'r') as f:
+        code=f.read().split("\n")
+        for l in code:
+            if l.startswith("// #libs:") and l.endswith("start"):
+                res.append(l)
+    for i,l in enumerate(res):
+        res[i]=res[i].replace("// #libs:",'')[:-5]
+    print("found %s libraries in the code:"%len(res),end=" ")
+    print(*res,sep=",",end="\n")
+    exit(0)
+
+if CMD=="remove":
+    # searching for // #libs:<LIB> start and // #libs:<LIB> end
+    target_start=f"// #libs:{LIB} start"
+    target_end=f"// #libs:{LIB} end"
+    with open(MAINCPP,'r') as f:
+        lines=f.read().split("\n")
+    new_lines=[]
+    flag=0
+    for i,line in enumerate(lines):
+        if line.startswith(target_start):
+            flag=1
+        if flag==1 and line.startswith(target_end):
+            flag=2
+            continue;
+        if flag==1:
+            continue
+        new_lines.append(line+"\n")
+    if flag==0:
+        print("library %s was not present in the code"%LIB)
+    elif flag==1:
+        print("error in libs_linker: couldn't find target_end %s, aborting"%target_end)
+    else:
+        print("removed library %s"%LIB)
+        with open(MAINCPP,'w') as f:
+            f.writelines(new_lines)
+    exit(0)
+
+try:
+    with open(MAINCPP,'r') as f:
+        code=f.read()
+    if "// #libs:%s start"%LIB in code:
+        print("library %s is already present in the code"%LIB)
+        exit(0)
+    code_txt=code
+    code=code.split("\n")
+    with open(f"{LIBS}/{LIB}.hpp",'r') as f:
+        lines=f.readlines()
+        if(not lines[-1].endswith("\n")):lines[-1]+="\n"
+    if lines[0].startswith("// #libs:libs list"):
+        for l in lines[1:]:
+            l=l.replace("// ","").replace("\n","")
+            if not l:continue;
+            if "// #libs:%s start"%l in code_txt:
+                print("library %s is already present in the code, aborting adding list library %s"%(l,LIB))
+                exit(0)
+        new_code=[]
+        flag=0
+        for i,line in enumerate(code):
+            if line.startswith("// #libs:libs"):
+                flag+=1
+                new_code.append(line+"\n")
+                new_code.append("// #libs:%s start\n"%LIB)
+                for l in lines[1:]:
+                    l=l.replace("// ","").replace("\n","")
+                    if not l:continue
+                    with open(f"{LIBS}/{l}.hpp",'r') as p:
+                        new_code.append("// #libs:%s start\n"%l)
+                        new_code+=p.readlines()
+                        if new_code[-1][-1]!='\n':
+                            new_code[-1]+="\n"
+                        new_code.append("// #libs:%s end\n"%l)
+                new_code.append("// #libs:%s end\n"%LIB)
+                continue
+            new_code.append(line+"\n")
+        if flag==0:
+            print("error in libs_linker: couldn't find the entry point // #libs:libs")
+        elif flag>1:
+            print("error in libs_linker: too many entry points (%s)"%flag)
+        else:
+            with open(MAINCPP,'w') as f:
+                f.writelines(new_code)
+            print("added list library %s"%LIB)
+        exit(0)
+    new_code=[]
+    flag=0
+    for i,line in enumerate(code):
+        if line.startswith("// #libs:libs"):
+            flag+=1
+            new_code.append(line+"\n")
+            new_code.append("// #libs:%s start\n"%LIB)
+            new_code+=lines
+            new_code.append("// #libs:%s end\n"%LIB)
+            continue
+        new_code.append(line+"\n")
+    if flag==0:
+        print("error in libs_linker: couldn't find the entry point // #libs:libs")
+    elif flag>1:
+        print("error in libs_linker: too many entry points (%s)"%flag)
+    else:
+        with open(MAINCPP,'w') as f:
+            f.writelines(new_code)
+        print("added library %s"%LIB)
+except Exception as e:
+    print("error in libs_linker: library %s was not found in libs/"%LIB)
+        
+        

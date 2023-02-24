@@ -1,0 +1,18 @@
+#!/bin/bash
+
+DIR="$1"
+MAINCPP="${DIR}/main.cpp"
+
+SRC="$2"
+
+if [[ -z "$SRC" || -z "$MAINCPP" ]]; then
+    echo "error in load_template: empty arguments"
+    exit 1
+fi
+
+if [[ ! -f "$SRC" ]]; then
+    echo "error in load_template: $SRC doesn't exist"
+    exit 1
+fi
+
+cp $SRC $MAINCPP
