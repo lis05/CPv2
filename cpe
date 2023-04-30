@@ -1,0 +1,69 @@
+#!/bin/bash
+
+#! CHANGE THIS LINE TO YOUR DIRECTORY
+DIR="/home/lis05/CPv2"
+
+TEMPLATES="${DIR}/templates"
+LIBS="${DIR}/libs"
+FILES="${DIR}/files"
+SCRIPTS="${DIR}/scripts"
+MODES="${DIR}/modes"
+DATA="${DIR}/data"
+BITS="${DIR}/bits"
+BIN="${DIR}/bin"
+MAINCPP="${DIR}/main.cpp"
+
+
+MODE="$1"
+
+# load template script
+if [[ "$MODE" == "done" ]]; then
+    template_name="$2"
+    if [[ -z "$template_name" ]]; then template_name="default"; fi
+    "${SCRIPTS}/load_template" "$DIR" "${TEMPLATES}/${template_name}.cpp" 
+    true > "${FILES}/input.txt"
+    true > "${FILES}/output.txt"
+    exit 0
+fi
+
+# run script
+if [[ -f "${MODES}/${MODE}.txt" ]]; then
+    # check what headers is the code using
+    check_headers="$2"
+    if [[ "$check_headers" != "headers" ]]; then check_headers=""; fi
+    "${SCRIPTS}/run" "$DIR" "$MODE" "$check_headers"
+fi
+
+
+# libs linker
+if [[ "$MODE" == "libs" ]]; then
+    cmd="$2"
+    lib="$3"
+    if [[ "$cmd" != "add" && "$cmd" != "remove" && "$cmd" != "list" ]]; then
+        echo "error: invalid args for libs linker"
+        exit 1
+    fi
+
+    if [[ "$cmd" == "list" ]]; then
+        lib="all"
+    fi
+
+    if [[ -z "$lib" ]]; then
+        echo "error: empty lib name for libs linker"
+        exit 1
+    fi
+
+    "${SCRIPTS}/libs_linker" "$DIR" "$cmd" "$lib"
+fi
+
+if [[ "$MODE" == "clean" ]]; then
+    rm -rf "${BITS}/precompiled" 2> /dev/null
+    mkdir "${BITS}/precompiled"
+    true > "${BITS}/last" 2> /dev/null
+    rm "${BITS}/stdc++.h.gch" 2> /dev/null
+    rm -rf "${DIR}/bin" 2> /dev/null
+    mkdir "${DIR}/bin" 2> /dev/null
+    true > "${FILES}/input.txt"
+    true > "${FILES}/output.txt"
+fi
+

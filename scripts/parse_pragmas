@@ -1,0 +1,28 @@
+#!/bin/python3
+import sys
+
+DIR=sys.argv[1]
+MAINCPP=f"{DIR}/main.cpp"
+
+with open(MAINCPP,'r') as f:
+    lines=f.read().split("\n")
+
+SEP1="_SEP1_"
+SEP2="_SEP2_"
+
+optimize=""
+target=""
+for line in lines:
+    if line.startswith("#pragma GCC optimize(\""):
+        line=line.replace("#pragma GCC optimize(\"","")
+        line=line.replace("\")","")
+        line=line.split(",")
+        for e in line: optimize+=e+SEP1
+    elif line.startswith("#pragma GCC target(\""):
+        line=line.replace("#pragma GCC target(\"","")
+        line=line.replace("\")","")
+        line=line.split(",")
+        for e in line: target+=e+SEP1
+
+total=optimize+SEP2+target
+print(total)

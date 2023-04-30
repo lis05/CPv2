@@ -1,0 +1,32 @@
+#!/bin/python3
+import sys,os,time
+
+DIR,HEADER=sys.argv[1:]
+BITS=f"{DIR}/bits"
+
+orig=HEADER
+
+HEADER=HEADER.split("_SEP3_")
+HEADER,MODE=HEADER
+optimize,target=HEADER.split("_SEP2_")
+optimize=[e for e in optimize.split("_SEP1_") if e]
+target=[e for e in target.split("_SEP1_") if e]
+
+if not optimize and not target:
+    optimize=""
+    target=""
+else:
+    optimize="#pragma GCC optimize(\""+"".join([e+"," for e in optimize])[:-1]+"\")"
+    target="#pragma GCC target(\""+"".join([e+"," for e in target])[:-1]+"\")"
+
+os.system(f"mv {BITS}/stdc++.h {BITS}/stdc++.h.tmp")
+with open(f"{BITS}/stdc++.h.tmp",'r') as f:
+    lines=f.readlines()
+with open(f"{BITS}/stdc++.h",'w') as f:
+    f.writelines([
+        optimize+"\n",
+        target+"\n"
+    ]+lines)
+
+
+

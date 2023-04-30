@@ -1,0 +1,156 @@
+#!/bin/bash
+DIR="$1"
+LIBS="${DIR}/libs"
+FILES="${DIR}/files"
+SCRIPTS="${DIR}/scripts"
+MODES="${DIR}/modes"
+BIN="${DIR}/bin"
+BITS="${DIR}/bits"
+DATA="${DIR}/data"
+MAINCPP="${DIR}/main.cpp"
+
+#! FUNCTIONS =============================
+
+# Reset
+Reset='\033[0m'           # Text Reset
+
+# Regular Colors
+Black='\033[0;30m'        # Black
+Red='\033[0;31m'          # Red
+Green='\033[0;32m'        # Green
+Yellow='\033[0;33m'       # Yellow
+Blue='\033[0;34m'         # Blue
+Purple='\033[0;35m'       # Purple
+Cyan='\033[0;36m'         # Cyan
+White='\033[0;37m'        # White
+
+function getTime {
+    date +%s%N
+}
+function getTimeDelta {
+    t1="$1"
+    t2="$2"
+    echo $((t2-t1))
+}
+function nsToSeconds {
+    python3 -c "print('%.3f' % ($1/1e9))"
+}
+
+
+#!
+
+MODE="$2"
+CHECK_HEADERS="$3"
+
+if [[ ! -f "${MODES}/${MODE}.txt" ]]; then
+    echo "error in run: invalid mode ${MODE}"
+fi 
+
+
+#! PRECOMPILED HEADER
+header=$(python3 "${SCRIPTS}/parse_pragmas" "$DIR")
+header="${header}_SEP3_${MODE}"
+
+last_mode=$(cat "${BITS}/last")
+if [[ "$last_mode" != "$header" ]]; then
+    echo "$header" > "${BITS}/last"
+    if [[ -f "${BITS}/precompiled/${header}" ]]; then
+        cp "${BITS}/precompiled/${header}" "${BITS}/stdc++.h.gch"
+        echo "Copied precompiled header since the last mode was different"
+    fi
+fi
+
+if [[ ! -f "${BITS}/precompiled/${header}" ]]; then
+    python3 "${SCRIPTS}/create_header" "$DIR" "$header"
+
+    compilation_cmd=$(cat "${MODES}/${MODE}.txt")
+    echo "Creating precompiled header..."
+    /usr/bin/time --output="${DATA}/tmp-comp-data" --format="compdata %e %M" $compilation_cmd "${BITS}/stdc++.h" -o "${BITS}/stdc++.h.gch"
+    exit_code=$?
+
+    cp "${BITS}/stdc++.h.tmp" "${BITS}/stdc++.h"
+    rm "${BITS}/stdc++.h.tmp"
+    
+    compdata=$(cat ${DATA}/tmp-comp-data | grep "compdata")
+
+    if [[ -z "$compdata" ]]; then
+        echo -e $Red"[?s, ?MB] Compilation failed: /usr/bin/time produced no output  ($exit_code)"$Reset
+        exit 1
+    fi
+
+    read -a compdarr <<< "$compdata"
+    timeUsed="${compdarr[1]}"
+    memUsed=$(python3 -c "print('%.1f' % (${compdarr[2]}/1e3))")
+
+    if [[ "$exit_code" != "0" ]]; then
+        echo -e $Red"[${timeUsed}s, ${memUsed}MB] Creating precompiled header failed: non-zero exit code ($exit_code)"$Reset
+        exit 1
+    fi
+
+    echo -e $Green"[${timeUsed}s] Created precompiled header successfully ($exit_code)"$Reset
+    mv "${BITS}/stdc++.h.gch" "${BITS}/precompiled/${header}"
+    cp "${BITS}/precompiled/${header}" "${BITS}/stdc++.h.gch"
+    echo "Copied precompiled header since the last mode was different"
+ 
+fi
+
+
+#! COMPILATION =============================
+compilation_cmd=$(cat "${MODES}/${MODE}.txt")
+if [[ "$CHECK_HEADERS" == "headers" ]]; then compilation_cmd="$compilation_cmd -H"; fi
+# ? format = time memory(in kb)
+echo "Compiling..."
+/usr/bin/time --output="${DATA}/tmp-comp-data" --format="compdata %e %M" $compilation_cmd "$MAINCPP" -o "${BIN}/main.bin"
+exit_code=$?
+
+compdata=$(cat ${DATA}/tmp-comp-data | grep "compdata")
+
+if [[ -z "$compdata" ]]; then
+    echo -e $Red"[?s, ?MB] Compilation failed: /usr/bin/time produced no output  ($exit_code)"$Reset
+    exit 1
+fi
+
+read -a compdarr <<< "$compdata"
+timeUsed="${compdarr[1]}"
+memUsed=$(python3 -c "print('%.1f' % (${compdarr[2]}/1e3))")
+
+if [[ "$exit_code" != "0" ]]; then
+    echo -e $Red"[${timeUsed}s, ${memUsed}MB] Compilation failed: non-zero exit code ($exit_code)"$Reset
+    exit 1
+fi
+
+echo -e $Green"[${timeUsed}s] Compilation successful ($exit_code)"$Reset
+
+if [[ $CHECK_HEADERS == "headers" ]]; then
+    echo "Done checking headers."
+    exit 0
+fi
+
+#! EXECUTION =============================
+# ? format = time memory(in kb)
+echo "Executing..."
+true > "$FILES/output.txt"
+/usr/bin/time --output="${DATA}/tmp-exec-data" --format="execdata %e %M" "${BIN}/main.bin"
+exit_code=$?
+
+execdata=$(cat ${DATA}/tmp-exec-data | grep "execdata")
+# rm ${DATA}/tmp-exec-data # for debbuging purposes
+
+if [[ -z "$execdata" ]]; then
+    echo -e $Red"[?s, ?MB] Execution failed: /usr/bin/time produced no output  ($exit_code)"$Reset
+    exit 1
+fi
+
+read -a execdarr <<< "$execdata"
+timeUsed="${execdarr[1]}"
+memUsed=$(python3 -c "print('%.1f' % (${execdarr[2]}/1e3))")
+
+
+if [[ "$exit_code" != "0" ]]; then
+    echo -e $Red"[${timeUsed}s, ${memUsed}MB] Execution failed: non-zero exit code ($exit_code)"$Reset
+    exit 1
+fi
+
+echo -e $Green"[${timeUsed}s, ${memUsed}MB] Execution successful ($exit_code)"$Reset
+
+
