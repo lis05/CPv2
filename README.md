@@ -112,7 +112,7 @@ vector<int>c = {1,2,3};
 
 wr.set_precision(5); // default precision is big
 
-wr(a,b,c); wr();
+wr(a,b,c); wr(); // wr() is here just for an additional newline
 wrs(a,b,c); wr();
 wrr(a,b,c); wr();
 wrf(a,b,c); wr();
