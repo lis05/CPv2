@@ -9,7 +9,7 @@ path="${abs_path}/CPv2"
 echo -n "Create new project under this path? $path [y/n]:"
 
 read ans
-if [[ "$ans" == "n" ]]; then
+if [[ "$ans" != "y" ]]; then
     echo "Aborting"
     exit 0
 fi
@@ -41,7 +41,11 @@ cp src/templates/* "$path/templates"
 cp src/main.cpp "$path/main.cpp"
 
 cp src/cpe "$path/cpe"
-sed -i "s/REPLACE_ME_WITH_THE_REAL_PATH/\"$abs_path\"/g" "$path/cpe"
+
+python3 -c "
+with open(\"$path/cpe\",'r') as f:t = f.read().replace('REPLACE_ME_WITH_THE_REAL_PATH', '\"$abs_path\"')
+with open(\"$path/cpe\",'w') as f:f.write(t)
+"
 
 echo "If no messages popped up over this one, then CPv2 has been installed successfully!"
 echo "You may want to link cpe to /bin/cpe to use it easier"

@@ -352,8 +352,8 @@ signed main(){
         PRECISION,                                  // precision 
         //"connect.in",         // input file
         //"connect.out",true         // output file, force redirection
-        "/home/lis05/CPv2/files/input.txt",         // input file
-        "/home/lis05/CPv2/files/output.txt"         // output file
+        "files/input.txt",         // input file
+        "files/output.txt"         // output file
     );
     
     if(onLocal()){
