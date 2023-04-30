@@ -10,7 +10,7 @@ The most important features are:
 - built in snippets support
 - built in templates support
 - file io
-- ships with premade code template
+- ships with premade code template ( REPLACED CIN/COUT WITH MUCH BETTER THINGS! )
 - console interface with formatted output
 
 
