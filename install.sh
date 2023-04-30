@@ -43,7 +43,7 @@ cp src/main.cpp "$path/main.cpp"
 cp src/cpe "$path/cpe"
 
 python3 -c "
-with open(\"$path/cpe\",'r') as f:t = f.read().replace('REPLACE_ME_WITH_THE_REAL_PATH', '\"$abs_path\"')
+with open(\"$path/cpe\",'r') as f:t = f.read().replace('REPLACE_ME_WITH_THE_REAL_PATH', '\"$path\"')
 with open(\"$path/cpe\",'w') as f:f.write(t)
 "
 
