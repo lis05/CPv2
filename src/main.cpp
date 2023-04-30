@@ -338,7 +338,7 @@ __name2,__name1)(__VA_ARGS__);};
 // #libs:libs
 
 #define PRECISION 25
-#define MULTITESTS 1
+#define MULTITESTS 0
 
 void solve(int testCase){
 
