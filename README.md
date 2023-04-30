@@ -136,4 +136,4 @@ a=5 b=3.1416f c={1, 2, 3}
 
 Some screenshots:
 
-![My setup](https://imgur.com/a/bMLFWSu)
+![My setup](https://i.imgur.com/1gRyJU2.png)
