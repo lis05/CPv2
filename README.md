@@ -95,8 +95,8 @@ There are 6 writing objects, each has a different writing style.
 - wrs(x,y,z) - writes space separated x y z in one line but doesn't put a newline character at the end
 - wrr(x,y,z) - writes x y z without any spaces between them or newline characters at the end
 - wrf(x,y,z) - acts like wr(x,y,z) but also flushes output at the end. this is useful in interactive problems
-- wrt(x,y,z) - acts line wr(x,y,z) but adds type annotations to all data.
-- wrn(x,y,z) - acts line wrt(x,y,z) but adds names of variables before their annotated data.
+- wrt(x,y,z) - acts like wr(x,y,z) but adds type annotations to all data.
+- wrn(x,y,z) - acts like wrt(x,y,z) but adds names of variables before their annotated data.
 
 All object except for wrn(it's a macro) have set_precision(), set_fixed() and flush() methods.
 
