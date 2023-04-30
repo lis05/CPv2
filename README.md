@@ -15,7 +15,10 @@ The most important features are:
 
 
 ## Installation
-Clone the repository, cd and run `./install.sh`
+Clone the repository, cd and run 
+```bash
+./install.sh
+```
 
 Please also install `python3` and `time` packages, as CPv2 depends on them. Note that the default `time` package may not be the right one.
 
@@ -26,9 +29,38 @@ Interaction with the environment works though command `cpe`. I recommend you to 
 
 You code is in file `main.cpp` in the project directory, and IO is done through `files/input.txt` and `files/output.txt`.
 
-In CPv2 there are running modes. They are just files in `modes/` which contain compilation command with flags. For example, to run the code with debug mode you need to run `./cpe debug`. There is a lot of modes by default that are useful in competitive programmint (like `online` mode to simulate online judges).
+In CPv2 there are running modes. They are just files in `modes/` which contain compilation command with flags. For example, to run the code with debug mode you need to run `./cpe debug`.
+There is a lot of modes by default that are useful in competitive programming (like `online` mode to simulate online judges). You can run any mode with 
+```bash
+./cpe MODE_NAME
+```
 
-You can have multiple code templates. They are stored in `templates/` directory and you can load them and replace code in `main.cpp` with `./cpe done TEMPLATE_NAME` command. If you want to load the `default.cpp` template you can run just `./cpe done`.
+You can have multiple code templates. They are stored in `templates/` directory and you can load them and replace code in `main.cpp` with 
+```bash
+./cpe done TEMPLATE_NAME
+```
+If you want to load the `default.cpp` template you can run just `./cpe done`.
+
+If something goes wrong, or some files get corrupted, or compilation is slow, you can clear all files with 
+```bash
+./cpe clean
+```
+
+
+CPv2 also has built in support for snippets. There is a special line in your code where all snippets will be placed: `// #libs:libs`. You can move it to a better place. 
+
+All snippets (I call them libraries, or simply libs) are stored in `libs/` directory. You can include a lib with this command: 
+```bash
+./cpe libs add LIB_NAME
+```
+You can remove a lib from your code with 
+```bash
+./cpe libs remove LIB_NAME
+```
+You can list all libs with 
+```bash
+./cpe libs list
+```
 
 
 
