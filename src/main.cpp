@@ -341,7 +341,7 @@ __name2,__name1)(__VA_ARGS__);};
 #define MULTITESTS 0
 
 void solve(int testCase){
-
+    
 }
 void precalc(){
 
