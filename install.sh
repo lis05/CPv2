@@ -37,8 +37,7 @@ cp src/scripts/* "$path/scripts"
 
 mkdir "$path/templates"
 cp src/templates/* "$path/templates"
-
-cp src/main.cpp "$path/main.cpp"
+cp src/templates/default.cpp "$path/main.cpp"
 
 cp src/cpe "$path/cpe"
 
