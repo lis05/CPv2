@@ -5,22 +5,9 @@ using namespace std;
 
 #pragma GCC optimize("O3,inline")
 #pragma GCC target("avx,avx2,bmi,bmi2,abm,popcnt")
+
 typedef long long ll;
-typedef unsigned long long ull;
 typedef long double ld;
-
-typedef short int           int16;
-typedef unsigned short int  uint16;
-typedef int                 int32;
-typedef unsigned int        uint32;
-typedef long long           int64;
-typedef unsigned long long  uint64;
-typedef float               float32;
-typedef double              float64;
-typedef long double         float80;
-
-typedef int64 ll;
-typedef float80 ld;
 
 mt19937 rand32(chrono::steady_clock::now().time_since_epoch().count());
 mt19937_64 rand64(chrono::steady_clock::now().time_since_epoch().count());
@@ -92,16 +79,16 @@ struct Reader{
 };
 Reader rd;
 struct WriterRaw{
-    void __print(const int16 x){cout<<x;}
-    void __print(const uint16 x){cout<<x;}
-    void __print(const int32 x){cout<<x;}
-    void __print(const uint32 x){cout<<x;}
-    void __print(const int64 x){cout<<x;}
-    void __print(const uint64 x){cout<<x;}
-    void __print(const float32 x){cout<<x;}
-    void __print(const float64 x){cout<<x;}
-    void __print(const float80 x){cout<<x;}
-    void __print(const bool x){cout<<(int32)x;}
+    void __print(const int16_t x){cout<<x;}
+    void __print(const uint16_t x){cout<<x;}
+    void __print(const int32_t x){cout<<x;}
+    void __print(const uint32_t x){cout<<x;}
+    void __print(const int64_t x){cout<<x;}
+    void __print(const uint64_t x){cout<<x;}
+    void __print(const float x){cout<<x;}
+    void __print(const double x){cout<<x;}
+    void __print(const long double x){cout<<x;}
+    void __print(const bool x){cout<<(int32_t)x;}
     void __print(const char x){cout<<x;}
     void __print(const unsigned char x){cout<<x;}
     void __print(const string x){cout<<x;}
@@ -134,16 +121,16 @@ WriterRaw wrr;
 
 struct WriterSpace{
     void __print(){cout<<" ";}
-    void __print(const int16 x){cout<<x;__print();}
-    void __print(const uint16 x){cout<<x;__print();}
-    void __print(const int32 x){cout<<x;__print();}
-    void __print(const uint32 x){cout<<x;__print();}
-    void __print(const int64 x){cout<<x;__print();}
-    void __print(const uint64 x){cout<<x;__print();}
-    void __print(const float32 x){cout<<x;__print();}
-    void __print(const float64 x){cout<<x;__print();}
-    void __print(const float80 x){cout<<x;__print();}
-    void __print(const bool x){cout<<(int32)x;__print();}
+    void __print(const int16_t x){cout<<x;__print();}
+    void __print(const uint16_t x){cout<<x;__print();}
+    void __print(const int32_t x){cout<<x;__print();}
+    void __print(const uint32_t x){cout<<x;__print();}
+    void __print(const int64_t x){cout<<x;__print();}
+    void __print(const uint64_t x){cout<<x;__print();}
+    void __print(const float x){cout<<x;__print();}
+    void __print(const double x){cout<<x;__print();}
+    void __print(const long double x){cout<<x;__print();}
+    void __print(const bool x){cout<<(int32_t)x;__print();}
     void __print(const char x){cout<<x;__print();}
     void __print(const unsigned char x){cout<<x;__print();}
     void __print(const string x){cout<<x;__print();}
@@ -202,15 +189,15 @@ WriterFlush wrf;
 
 struct WriterTypes{
     void __print(){cout<<"\n";}
-    void __print(const int16 x){cout<<x<<"s";}
-    void __print(const uint16 x){cout<<x<<"su";}
-    void __print(const int32 x){cout<<x;}
-    void __print(const uint32 x){cout<<x<<"u";}
-    void __print(const int64 x){cout<<x<<"L";}
-    void __print(const uint64 x){cout<<x<<"LU";}
-    void __print(const float32 x){cout<<x<<'f';}
-    void __print(const float64 x){cout<<x<<'d';}
-    void __print(const float80 x){cout<<x<<"ld";}
+    void __print(const int16_t x){cout<<x<<"s";}
+    void __print(const uint16_t x){cout<<x<<"su";}
+    void __print(const int32_t x){cout<<x;}
+    void __print(const uint32_t x){cout<<x<<"u";}
+    void __print(const int64_t x){cout<<x<<"L";}
+    void __print(const uint64_t x){cout<<x<<"LU";}
+    void __print(const float x){cout<<x<<'f';}
+    void __print(const double x){cout<<x<<'d';}
+    void __print(const long double x){cout<<x<<"ld";}
     void __print(const bool x){cout<<((x)?"true":"false");}
     void __print(const char x){cout<<'\''<<x<<'\'';}
     void __print(const unsigned char x){cout<<'\''<<x<<"\'u";}
