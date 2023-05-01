@@ -1,10 +1,17 @@
 // CPv2 system for competitive programming
 // created by lis05
+#ifndef CPv2_LOCAL
+    #pragma GCC optimize("O3,inline")
+    #pragma GCC target("avx,avx2,bmi,bmi2,abm,popcnt")
+#endif
+
 #include"bits/stdc++.h"
 using namespace std;
 
-#pragma GCC optimize("O3,inline")
-#pragma GCC target("avx,avx2,bmi,bmi2,abm,popcnt")
+#ifdef CPv2_LOCAL
+    #pragma GCC optimize("O3,inline")
+    #pragma GCC target("avx,avx2,bmi,bmi2,abm,popcnt")
+#endif
 
 typedef long long ll;
 typedef long double ld;
