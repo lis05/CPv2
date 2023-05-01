@@ -79,38 +79,38 @@ struct Reader{
 };
 Reader rd;
 struct WriterRaw{
-    void __print(const int16_t x){cout<<x;}
-    void __print(const uint16_t x){cout<<x;}
-    void __print(const int32_t x){cout<<x;}
-    void __print(const uint32_t x){cout<<x;}
-    void __print(const int64_t x){cout<<x;}
-    void __print(const uint64_t x){cout<<x;}
-    void __print(const float x){cout<<x;}
-    void __print(const double x){cout<<x;}
-    void __print(const long double x){cout<<x;}
-    void __print(const bool x){cout<<(int32_t)x;}
-    void __print(const char x){cout<<x;}
-    void __print(const unsigned char x){cout<<x;}
-    void __print(const string x){cout<<x;}
-    void __print(const char* x){cout<<x;}
+    void __print_data(const int16_t x){cout<<x;}
+    void __print_data(const uint16_t x){cout<<x;}
+    void __print_data(const int32_t x){cout<<x;}
+    void __print_data(const uint32_t x){cout<<x;}
+    void __print_data(const int64_t x){cout<<x;}
+    void __print_data(const uint64_t x){cout<<x;}
+    void __print_data(const float x){cout<<x;}
+    void __print_data(const double x){cout<<x;}
+    void __print_data(const long double x){cout<<x;}
+    void __print_data(const bool x){cout<<(int32_t)x;}
+    void __print_data(const char x){cout<<x;}
+    void __print_data(const unsigned char x){cout<<x;}
+    void __print_data(const string x){cout<<x;}
+    void __print_data(const char* x){cout<<x;}
 
     template<typename T,typename U>
-    void __print(const pair<T,U> x){__print(x.first);__print(x.second);}
+    void __print_data(const pair<T,U> x){__print_data(x.first);__print_data(x.second);}
     template<typename T,size_t sz>
-    void __print(const array<T,sz> x){for(auto e:x)__print(e);}
+    void __print_data(const array<T,sz> x){for(auto e:x)__print_data(e);}
     template<typename T>
-    void __print(const vector<T> x){for(auto e:x)__print(e);}
+    void __print_data(const vector<T> x){for(auto e:x)__print_data(e);}
     template<typename T>
-    void __print(const set<T> x){for(auto e:x)__print(e);}
+    void __print_data(const set<T> x){for(auto e:x)__print_data(e);}
     template<typename T>
-    void __print(const multiset<T> x){for(auto e:x)__print(e);}
+    void __print_data(const multiset<T> x){for(auto e:x)__print_data(e);}
     template<typename T>
-    void __print(const deque<T> x){for(auto e:x)__print(e);}
+    void __print_data(const deque<T> x){for(auto e:x)__print_data(e);}
 
     template<typename T>
-    void operator()(const T x){__print(x);}
+    void operator()(const T x){__print_data(x);}
     template<typename T,typename...U>
-    void operator()(const T x,const U...o){__print(x);operator()(o...);}
+    void operator()(const T x,const U...o){__print_data(x);operator()(o...);}
 
     void set_precision(int x){cout.precision(x);}
     void set_fixed(){cout<<fixed;}
@@ -120,40 +120,40 @@ struct WriterRaw{
 WriterRaw wrr;
 
 struct WriterSpace{
-    void __print(){cout<<" ";}
-    void __print(const int16_t x){cout<<x;__print();}
-    void __print(const uint16_t x){cout<<x;__print();}
-    void __print(const int32_t x){cout<<x;__print();}
-    void __print(const uint32_t x){cout<<x;__print();}
-    void __print(const int64_t x){cout<<x;__print();}
-    void __print(const uint64_t x){cout<<x;__print();}
-    void __print(const float x){cout<<x;__print();}
-    void __print(const double x){cout<<x;__print();}
-    void __print(const long double x){cout<<x;__print();}
-    void __print(const bool x){cout<<(int32_t)x;__print();}
-    void __print(const char x){cout<<x;__print();}
-    void __print(const unsigned char x){cout<<x;__print();}
-    void __print(const string x){cout<<x;__print();}
-    void __print(const char* x){cout<<x;__print();}
+    void __print_data(){cout<<" ";}
+    void __print_data(const int16_t x){cout<<x;__print_data();}
+    void __print_data(const uint16_t x){cout<<x;__print_data();}
+    void __print_data(const int32_t x){cout<<x;__print_data();}
+    void __print_data(const uint32_t x){cout<<x;__print_data();}
+    void __print_data(const int64_t x){cout<<x;__print_data();}
+    void __print_data(const uint64_t x){cout<<x;__print_data();}
+    void __print_data(const float x){cout<<x;__print_data();}
+    void __print_data(const double x){cout<<x;__print_data();}
+    void __print_data(const long double x){cout<<x;__print_data();}
+    void __print_data(const bool x){cout<<(int32_t)x;__print_data();}
+    void __print_data(const char x){cout<<x;__print_data();}
+    void __print_data(const unsigned char x){cout<<x;__print_data();}
+    void __print_data(const string x){cout<<x;__print_data();}
+    void __print_data(const char* x){cout<<x;__print_data();}
 
     template<typename T,typename U>
-    void __print(const pair<T,U> x){__print(x.first);__print(x.second);}
+    void __print_data(const pair<T,U> x){__print_data(x.first);__print_data(x.second);}
     template<typename T,size_t sz>
-    void __print(const array<T,sz> x){for(auto e:x)__print(e);}
+    void __print_data(const array<T,sz> x){for(auto e:x)__print_data(e);}
     template<typename T>
-    void __print(const vector<T> x){for(auto e:x)__print(e);}
+    void __print_data(const vector<T> x){for(auto e:x)__print_data(e);}
     template<typename T>
-    void __print(const set<T> x){for(auto e:x)__print(e);}
+    void __print_data(const set<T> x){for(auto e:x)__print_data(e);}
     template<typename T>
-    void __print(const multiset<T> x){for(auto e:x)__print(e);}
+    void __print_data(const multiset<T> x){for(auto e:x)__print_data(e);}
     template<typename T>
-    void __print(const deque<T> x){for(auto e:x)__print(e);}
+    void __print_data(const deque<T> x){for(auto e:x)__print_data(e);}
 
-    void operator()(){__print();}
+    void operator()(){__print_data();}
     template<typename T>
-    void operator()(const T x){__print(x);}
+    void operator()(const T x){__print_data(x);}
     template<typename T,typename...U>
-    void operator()(const T x,const U...o){__print(x);operator()(o...);}
+    void operator()(const T x,const U...o){__print_data(x);operator()(o...);}
 
     void set_precision(int x){cout.precision(x);}
     void set_fixed(){cout<<fixed;}
@@ -188,51 +188,51 @@ struct WriterFlush{
 WriterFlush wrf;
 
 struct WriterTypes{
-    void __print(){cout<<"\n";}
-    void __print(const int16_t x){cout<<x<<"s";}
-    void __print(const uint16_t x){cout<<x<<"su";}
-    void __print(const int32_t x){cout<<x;}
-    void __print(const uint32_t x){cout<<x<<"u";}
-    void __print(const int64_t x){cout<<x<<"L";}
-    void __print(const uint64_t x){cout<<x<<"LU";}
-    void __print(const float x){cout<<x<<'f';}
-    void __print(const double x){cout<<x<<'d';}
-    void __print(const long double x){cout<<x<<"ld";}
-    void __print(const bool x){cout<<((x)?"true":"false");}
-    void __print(const char x){cout<<'\''<<x<<'\'';}
-    void __print(const unsigned char x){cout<<'\''<<x<<"\'u";}
-    void __print(const string x){cout<<'"'<<x<<'"';}
-    void __print(const char* x){cout<<'"'<<x<<'"';}
+    void __print_data(){cout<<"\n";}
+    void __print_data(const int16_t x){cout<<x<<"s";}
+    void __print_data(const uint16_t x){cout<<x<<"su";}
+    void __print_data(const int32_t x){cout<<x;}
+    void __print_data(const uint32_t x){cout<<x<<"u";}
+    void __print_data(const int64_t x){cout<<x<<"L";}
+    void __print_data(const uint64_t x){cout<<x<<"LU";}
+    void __print_data(const float x){cout<<x<<'f';}
+    void __print_data(const double x){cout<<x<<'d';}
+    void __print_data(const long double x){cout<<x<<"ld";}
+    void __print_data(const bool x){cout<<((x)?"true":"false");}
+    void __print_data(const char x){cout<<'\''<<x<<'\'';}
+    void __print_data(const unsigned char x){cout<<'\''<<x<<"\'u";}
+    void __print_data(const string x){cout<<'"'<<x<<'"';}
+    void __print_data(const char* x){cout<<'"'<<x<<'"';}
 
     template<typename T,typename U>
-    void __print(const pair<T,U> x)
-    {wrr('(');__print(x.first);wrr(", ");__print(x.second);wrr(')');}
+    void __print_data(const pair<T,U> x)
+    {wrr('(');__print_data(x.first);wrr(", ");__print_data(x.second);wrr(')');}
     template<typename T,size_t sz>
-    void __print(const array<T,sz> x){
-        wrr('{');if((int)sz!=0)__print(x[0]);
-        for(int i=1;i<(int)sz;i++)wrr(", "),__print(x[i]);
+    void __print_data(const array<T,sz> x){
+        wrr('{');if((int)sz!=0)__print_data(x[0]);
+        for(int i=1;i<(int)sz;i++)wrr(", "),__print_data(x[i]);
         wrr('}');
     }
     template<typename T>
-    void __print(const vector<T> x){
+    void __print_data(const vector<T> x){
         int sz=(int)x.size();
-        wrr('{');if((int)sz!=0)__print(x[0]);
-        for(int i=1;i<(int)sz;i++)wrr(", "),__print(x[i]);
+        wrr('{');if((int)sz!=0)__print_data(x[0]);
+        for(int i=1;i<(int)sz;i++)wrr(", "),__print_data(x[i]);
         wrr('}');
     }
     template<typename T>
-    void __print(const set<T> x){__print(vector<T>(all(x)));}
+    void __print_data(const set<T> x){__print_data(vector<T>(all(x)));}
     template<typename T>
-    void __print(const multiset<T> x){__print(vector<T>(all(x)));}
+    void __print_data(const multiset<T> x){__print_data(vector<T>(all(x)));}
     template<typename T>
-    void __print(const deque<T> x){__print(vector<T>(all(x)));}
+    void __print_data(const deque<T> x){__print_data(vector<T>(all(x)));}
 
-    void operator()(){__print();}
+    void operator()(){__print_data();}
     template<typename T>
-    void operator()(const T x){__print(x);__print();}
+    void operator()(const T x){__print_data(x);__print_data();}
     template<typename T,typename...U>
     void operator()(const T x,const U...o)
-    {__print(x);wrr(' ');operator()(o...);}
+    {__print_data(x);wrr(' ');operator()(o...);}
 
     void set_precision(int x){cout.precision(x);}
     void set_fixed(){cout<<fixed;}
@@ -261,7 +261,7 @@ void __name_val(NAME name, VAL val){
 }
 template<typename NAME,typename VAL,typename...OTHER>
 void __name_val(NAME name, VAL val,OTHER...o){
-    wrr(name,"=");wrt.__print(val);wrr(" ");
+    wrr(name,"=");wrt.__print_data(val);wrr(" ");
     __name_val(o...);
 }
 
