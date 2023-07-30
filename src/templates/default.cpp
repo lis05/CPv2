@@ -13,7 +13,7 @@ using namespace std;
     #pragma GCC target("avx,avx2,bmi,bmi2,abm,popcnt")
 #endif
 
-typedef long long ll;
+typedef int64_t ll;
 typedef long double ld;
 
 mt19937 rand32(chrono::steady_clock::now().time_since_epoch().count());
